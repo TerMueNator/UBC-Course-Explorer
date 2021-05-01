@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-UBCExplorerIO/Pods-UBCExplorerIO-frameworks.sh
+${BUILT_PRODUCTS_DIR}/BiometricAuthentication/BiometricAuthentication.framework
+${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework

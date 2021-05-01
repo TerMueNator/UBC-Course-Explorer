@@ -1,0 +1,24 @@
+PODS:
+  - BiometricAuthentication (3.1.2)
+  - ProgressHUD (13.4)
+  - SwiftyJSON (5.0.0)
+
+DEPENDENCIES:
+  - BiometricAuthentication
+  - ProgressHUD
+  - SwiftyJSON
+
+SPEC REPOS:
+  trunk:
+    - BiometricAuthentication
+    - ProgressHUD
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  BiometricAuthentication: 36445f3ab77699489f91995bed887be89890afac
+  ProgressHUD: 137a7fc677487c5581668f4490563124fb35c232
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+
+PODFILE CHECKSUM: 179cee72b1bb9490b0d6d80d060709b72c919742
+
+COCOAPODS: 1.9.3
