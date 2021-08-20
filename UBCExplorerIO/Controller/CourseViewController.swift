@@ -8,7 +8,6 @@
 
 import UIKit
 import ProgressHUD
-import BiometricAuthentication
 
 class CourseViewController: UIViewController {
 
@@ -22,14 +21,13 @@ class CourseViewController: UIViewController {
     var coursesDict: [String: String] = [:]
     var userDefaults = UserDefaults.standard
     var isBackground: Bool = true
+    var beginTime = Date().timeIntervalSince1970
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         filteredData = coursesArray
-        
-//        addBlurView()
-        
+                
         setupTableView()
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
@@ -46,10 +44,6 @@ class CourseViewController: UIViewController {
         }
         
         searchBar.delegate = self
-        
-//        let notificationCenter = NotificationCenter.default
-//        notificationCenter.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-//        notificationCenter.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -65,30 +59,12 @@ class CourseViewController: UIViewController {
     }
     
     func refreshCourseList() {
+        beginTime = Date().timeIntervalSince1970
         courseManager.fetchAllCourse()
         ProgressHUD.animationType = .circleSpinFade
         ProgressHUD.fontStatus = UIFont(name: "Avenir", size: 24)!
         ProgressHUD.show("Loading courses", interaction: false)
     }
-    
-//    func addBlurView() {
-//        let blurEffect = UIBlurEffect(style: .dark)
-//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//        blurEffectView.frame = view.bounds
-//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        blurEffectView.tag = 999
-//
-//        let authButton = UIButton(frame: CGRect(x: self.view.frame.size.width / 2 - 80, y: self.view.frame.size.height / 2 - 20, width: 160, height: 40))
-//        authButton.setTitle("Unlock", for: .normal)
-//        authButton.layer.cornerRadius = 10
-//        authButton.backgroundColor = .systemGray
-//        authButton.addTarget(self, action: #selector(authButtonPressed), for: .touchUpInside)
-//        authButton.tag = 998
-//
-//        UIApplication.shared.keyWindow?.addSubview(blurEffectView)
-//        UIApplication.shared.keyWindow?.addSubview(authButton)
-//
-//    }
     
     func setupTableView() {
         tableView.delegate = self
@@ -105,59 +81,6 @@ class CourseViewController: UIViewController {
             }
         }
     }
-    
-//    @objc func authButtonPressed() {
-//        if let authButton = UIApplication.shared.keyWindow?.viewWithTag(998), let blurView = UIApplication.shared.keyWindow?.viewWithTag(999) {
-//            if BioMetricAuthenticator.canAuthenticate() {
-//                BioMetricAuthenticator.authenticateWithBioMetrics(reason: "") { (result) in
-//                    switch result {
-//                    case .success(_):
-//                        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-//                            authButton.alpha = 0
-//                            blurView.alpha = 0
-//                        }) { (_) in
-//                            authButton.isHidden = true
-//                            blurView.isHidden = true
-//                        }
-//
-//                        print("auth success")
-//                        self.isBackground = false
-//                    case .failure(let error):
-//                        print("auth error, \(error)")
-//                    }
-//                }
-//            } else {
-//                BioMetricAuthenticator.authenticateWithPasscode(reason: "") { (result) in
-//                    switch result {
-//                    case .success(_):
-//                        authButton.isHidden = true
-//                        blurView.isHidden = true
-//                        print("auth success")
-//                    case .failure(let error):
-//                        print("auth error, \(error)")
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
-//    @objc func appDidEnterBackground() {
-//        print("app entered background")
-//        if let authButton = UIApplication.shared.keyWindow?.viewWithTag(998), let blurView = UIApplication.shared.keyWindow?.viewWithTag(999) {
-//            authButton.alpha = 1
-//            blurView.alpha = 1
-//            authButton.isHidden = false
-//            blurView.isHidden = false
-//            isBackground = true
-//        }
-//    }
-    
-//    @objc func appDidBecomeActive() {
-//        if isBackground {
-//            authButtonPressed()
-//        }
-//    }
-    
 }
 
 //MARK: - UITableViewDelegate
@@ -192,6 +115,9 @@ extension CourseViewController: CourseManagerDelegate {
                 self.filteredData = resultArray
                 self.tableView.reloadData()
                 ProgressHUD.showSucceed("Loaded", interaction: false)
+                
+                let endTime = Date().timeIntervalSince1970
+                print("time taken to reload: \(endTime - self.beginTime)")
                 
                 self.userDefaults.set(resultArray, forKey: "coursesArray")
                 self.userDefaults.set(resultDict, forKey: "coursesDict")

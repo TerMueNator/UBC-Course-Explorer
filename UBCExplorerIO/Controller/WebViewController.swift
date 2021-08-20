@@ -24,7 +24,7 @@ class WebViewController: UIViewController {
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
         
         navigationItem.title = selectedCourse
-        navigationItem.backBarButtonItem?.title = "Course Info"
+        
         
         progressView.isHidden = false
     }

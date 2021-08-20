@@ -26,12 +26,12 @@ class CourseInfoViewController: UITableViewController {
     }
     
     @IBAction func websiteButton(_ sender: Any) {
-        let alertController = UIAlertController(title: "open website in", message: nil, preferredStyle: .actionSheet)
-        let safariAction = UIAlertAction(title: "open in safari", style: .default) { (action) in
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let safariAction = UIAlertAction(title: "Open in Safari", style: .default) { (action) in
             guard let url = URL(string: self.courseInfo.last![0]) else { return }
             UIApplication.shared.open(url)
         }
-        let inAppAction = UIAlertAction(title: "open in app", style: .default) { (action) in
+        let inAppAction = UIAlertAction(title: "Open in app", style: .default) { (action) in
             self.performSegue(withIdentifier: "toWebView", sender: self)
         }
         let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
@@ -47,6 +47,9 @@ class CourseInfoViewController: UITableViewController {
             let destinationVC = segue.destination as! WebViewController
             destinationVC.urlString = courseInfo.last![0]
             destinationVC.selectedCourse = self.selectedCourse
+            let backItem = UIBarButtonItem()
+            backItem.title = selectedCourse
+            navigationItem.backBarButtonItem = backItem
         }
     }
     
